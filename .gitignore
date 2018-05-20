@@ -1,2 +1,5 @@
+*.ctps
+*.lps
+
 examples/*/lib/
 examples/*/bin/
