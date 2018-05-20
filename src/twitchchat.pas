@@ -5,17 +5,27 @@ Unit TwitchChat;
 interface
 
 uses
+  { System }
+  Classes,
+  { Twitch }
+  TwitchUtils,
   { Indy }
-  IdIRC;
+  IdIRC, IdContext;
 
 type
   TTwitchChat = class
+  type
+    TOnMessageEvent = procedure (const AMessage: String) of object;
+    TMessageEventList = specialize TSynchronisedEventList<String>;
   protected
     FName: String;
     FOAuth: String;
     FIRCClient: TIdIRC;
-  protected
     procedure PrefixChannel (var AChannel: String);
+  protected
+    FMessageEventList: TMessageEventList;
+    procedure SetOnMessage (AOnMessageEvent : TOnMessageEvent);
+    procedure OnMessageEvent (ASender: TIdContext; const ANickname, AHost, ATarget, AMessage: String);
   public
     constructor Create; virtual; overload;
     constructor Create (const AName, AOAuth: String); virtual; overload;
@@ -28,6 +38,8 @@ type
   public
     property Name: String read FName write FName;
     property OAuth: String read FOAuth write FOAuth;
+  public
+    property OnMessage: TOnMessageEvent write SetOnMessage;
   end;
 
 implementation
@@ -45,6 +57,10 @@ begin
   inherited;
 
   FIRCClient := TIdIRC.Create;
+  
+  FMessageEventList := TMessageEventList.Create;
+
+  FIRCClient.OnPrivateMessage := @OnMessageEvent;
 end;
 
 constructor TTwitchChat.Create (const AName, AOAuth: String);
@@ -59,6 +75,8 @@ destructor TTwitchChat.Destroy;
 begin
   FIRCClient.Free;
 
+  FMessageEventList.Free;
+
   inherited;
 end;
 
@@ -70,6 +88,18 @@ procedure TTwitchChat.PrefixChannel (var AChannel: String);
 begin
   if AChannel[1] <> '#' then
     AChannel := '#' + AChannel;
+end;
+
+procedure TTwitchChat.SetOnMessage (AOnMessageEvent: TOnMessageEvent);
+begin
+  FMessageEventList.Call := AOnMessageEvent;
+end;
+
+procedure TTwitchChat.OnMessageEvent (ASender: TIdContext; const ANickname, AHost, ATarget, AMessage: String);
+begin
+  FMessageEventList.AddObject(ANickname + ': ' +  AMessage);
+
+  TThread.Queue(nil, @FMessageEventList.CallNext);
 end;
 
 //////////
