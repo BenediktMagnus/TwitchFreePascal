@@ -21,6 +21,7 @@ type
     FName: String;
     FOAuth: String;
     FIRCClient: TIdIRC;
+    FSynchronised: Boolean;
     procedure PrefixChannel (var AChannel: String);
   protected
     FMessageEventList: TMessageEventList;
@@ -39,6 +40,9 @@ type
     property Name: String read FName write FName;
     property OAuth: String read FOAuth write FOAuth;
   public
+    //If true, events will be fired by TThread.Synchronize instead of TThread.Queue.
+    //This can be needed or useful on some systems or environments.
+    property Synchronised: Boolean read FSynchronised write FSynchronised;
     property OnMessage: TOnMessageEvent write SetOnMessage;
   end;
 
@@ -99,7 +103,10 @@ procedure TTwitchChat.OnMessageEvent (ASender: TIdContext; const ANickname, AHos
 begin
   FMessageEventList.AddObject(ANickname + ': ' +  AMessage);
 
-  TThread.Queue(nil, @FMessageEventList.CallNext);
+  if Synchronised then
+    TThread.Synchronize(nil, @FMessageEventList.CallNext)
+  else
+    TThread.Queue(nil, @FMessageEventList.CallNext);
 end;
 
 //////////
