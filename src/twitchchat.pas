@@ -92,6 +92,7 @@ begin
   FIRCClient.Password := FOAuth;
 
   FIRCClient.Connect;
+  FIRCClient.IOHandler.ReadTimeout := 100; //If not set, a disconnect will result in an endless WaitFor.
 end;
 
 procedure TTwitchChat.Disconnect;
