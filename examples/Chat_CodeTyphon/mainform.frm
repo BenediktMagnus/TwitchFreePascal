@@ -1,10 +1,10 @@
 object FormMain: TFormMain
   Left = 309
-  Height = 414
+  Height = 463
   Top = 250
   Width = 470
   Caption = 'Example CodeTyphon'
-  ClientHeight = 414
+  ClientHeight = 463
   ClientWidth = 470
   OnClose = FormClose
   OnCreate = FormCreate
@@ -21,7 +21,7 @@ object FormMain: TFormMain
   object Memo_Text: TMemo
     Left = 1
     Height = 176
-    Top = 192
+    Top = 240
     Width = 463
     Lines.Strings = (
       'Hello Twitch!'
@@ -31,7 +31,7 @@ object FormMain: TFormMain
   object Button_Send: TButton
     Left = 1
     Height = 33
-    Top = 376
+    Top = 424
     Width = 116
     Caption = 'Send'
     OnClick = Button_SendClick
@@ -40,7 +40,7 @@ object FormMain: TFormMain
   object Button_Disconnect: TButton
     Left = 348
     Height = 32
-    Top = 376
+    Top = 424
     Width = 116
     Caption = 'Disconnect'
     OnClick = Button_DisconnectClick
@@ -98,11 +98,20 @@ object FormMain: TFormMain
     TabOrder = 6
   end
   object Label_Text: TLabel
-    Left = 1
+    Left = 0
     Height = 17
-    Top = 168
+    Top = 216
     Width = 33
     Caption = 'Text:'
     ParentColor = False
+  end
+  object ButtonJoin: TButton
+    Left = 1
+    Height = 28
+    Top = 172
+    Width = 116
+    Caption = 'Join'
+    OnClick = ButtonJoinClick
+    TabOrder = 7
   end
 end

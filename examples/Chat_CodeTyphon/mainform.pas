@@ -6,11 +6,12 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, ExtCtrls,
-  TwitchChat;
+  IdIRC, TwitchChat;
 
 type
   { TFormMain }
   TFormMain = class(TForm)
+    ButtonJoin: TButton;
     Button_Connect: TButton;
     Button_Send: TButton;
     Button_Disconnect: TButton;
@@ -19,6 +20,7 @@ type
     Label_Text: TLabel;
     Edit_Channel: TLabeledEdit;
     Memo_Text: TMemo;
+    procedure ButtonJoinClick(Sender: TObject);
     procedure Button_ConnectClick(Sender: TObject);
     procedure Button_DisconnectClick(Sender: TObject);
     procedure Button_SendClick(Sender: TObject);
@@ -26,6 +28,8 @@ type
     procedure FormCreate(Sender: TObject);
   private
     FTwitchChat: TTwitchChat;
+  protected
+    procedure OnMessage (const AMessage: String);
   public
   end;
 
@@ -41,11 +45,18 @@ implementation
 procedure TFormMain.FormCreate(Sender: TObject);
 begin
   FTwitchChat := TTwitchChat.Create;
+
+  FTwitchChat.OnMessage := @OnMessage;
 end;
 
 procedure TFormMain.Button_ConnectClick(Sender: TObject);
 begin
   FTwitchChat.Connect(Edit_Name.Text, Edit_OAuth.Text);
+end;
+
+procedure TFormMain.ButtonJoinClick(Sender: TObject);
+begin
+  FTwitchChat.Join(Edit_Channel.Text);
 end;
 
 procedure TFormMain.Button_SendClick(Sender: TObject);
@@ -61,6 +72,11 @@ end;
 procedure TFormMain.FormClose(Sender: TObject; var CloseAction: TCloseAction);
 begin
   FTwitchChat.Free;
+end;
+
+procedure TFormMain.OnMessage (const AMessage: String);
+begin
+  Memo_Text.Lines.Text := AMessage;
 end;
 
 end.

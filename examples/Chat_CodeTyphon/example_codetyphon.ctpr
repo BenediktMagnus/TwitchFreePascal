@@ -92,13 +92,16 @@
       <FormatVersion Value="2"/>
       <Modes Count="0"/>
     </RunParams>
-    <RequiredPackages Count="2">
+    <RequiredPackages Count="3">
       <Item1>
-        <PackageName Value="pl_indy"/>
+        <PackageName Value="pl_generics"/>
       </Item1>
       <Item2>
-        <PackageName Value="adLCL"/>
+        <PackageName Value="pl_indy"/>
       </Item2>
+      <Item3>
+        <PackageName Value="adLCL"/>
+      </Item3>
     </RequiredPackages>
     <Units Count="2">
       <Unit0>
@@ -109,6 +112,7 @@
         <Filename Value="mainform.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="FormMain"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="MainForm"/>
       </Unit1>
