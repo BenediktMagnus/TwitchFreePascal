@@ -5,13 +5,14 @@ Unit TwitchUtils;
 interface
 
 uses
+  { System }
   Generics.Collections;
 
 type
-  generic TSynchronisedEventList<AObjectType> = class
+  generic TSynchronisedEventList <AObjectType> = class
   type
-    TObjectTypeThreadList = specialize TThreadList<AObjectType>;
-    TObjectTypeList = specialize TList<AObjectType>;
+    TObjectTypeThreadList = specialize TThreadList <AObjectType>;
+    TObjectTypeList = specialize TList <AObjectType>;
     TObjectTypeProcedure = procedure (const AObject: AObjectType) of object;
   protected
     FProcedure: TObjectTypeProcedure;

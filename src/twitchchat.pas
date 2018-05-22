@@ -7,10 +7,10 @@ interface
 uses
   { System }
   Classes,
-  { Twitch }
-  TwitchUtils,
   { Indy }
-  IdIRC, IdContext;
+  IdIRC, IdContext,
+  { Twitch }
+  TwitchUtils;
 
 type
   TTwitchChat = class
