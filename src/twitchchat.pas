@@ -39,10 +39,10 @@ type
   public
     property Name: String read FName write FName;
     property OAuth: String read FOAuth write FOAuth;
-  public
     //If true, events will be fired by TThread.Synchronize instead of TThread.Queue.
     //This can be needed or useful on some systems or environments.
     property Synchronised: Boolean read FSynchronised write FSynchronised;
+  public
     property OnMessage: TOnMessageEvent write SetOnMessage;
   end;
 

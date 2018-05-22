@@ -1,7 +1,7 @@
 # Twitch Free Pascal
 
 **Currently highly under development!**  
-Look at the wiki for the working parts.
+Look at the [wiki](https://github.com/BenediktMagnus/TwitchFreePascal/wiki) for the working parts.
 
 ## Description
 
